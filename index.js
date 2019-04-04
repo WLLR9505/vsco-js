@@ -1,7 +1,7 @@
-var https = require('https');
+const https = require('https');
 const fs = require("fs");
 const cheerio = require("cheerio");
-var Nightmare = require('Nightmare');
+const Nightmare = require('Nightmare');
 nightmare = new Nightmare({
     show: false
 });
@@ -24,13 +24,14 @@ function main(url) {
     .then((body) => {
         var $ = cheerio.load(body);
         src = $('.css-6j68gn').attr("src");
+        let username = $('.DetailViewUserInfo-username').text();
         //tenta fazer substituição válida
         src = src.replace('//im.vsco.co/1/', 'https://image.vsco.co/1/');
         src = src.replace('//im.vsco.co/aws-us-west-2/', 'https://image-aws-us-west-2.vsco.co/');
         //utilizado para nomear a imagem
         let endName = src.lastIndexOf('.jpg');
         let startname =  src.lastIndexOf('/');
-        saveImage(src, './imgs', src.slice(startname + 1, endName) + '.jpg')
+        saveImage(src, './imgs', username + '_' + src.slice(startname + 1, endName) + '.jpg')
     })
 }
 
