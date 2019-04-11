@@ -7,48 +7,60 @@ nightmare = new Nightmare({
 });
 
 var src = new String;
-const [,, ... args] = process.argv;
+var urls = [];
+const [,, ...args] = process.argv;
 
-main(args[0]);
+main(args);
 
 
-function main(url) {
-    nightmare
-    .goto(url)
-    .wait(200)
-    .evaluate(() => {
-        console.log(document.body.innerHTML);
-        return document.body.innerHTML;
-    })
-    .end()
-    .then((body) => {
-        var $ = cheerio.load(body);
-        src = $('.css-6j68gn').attr("src");
-        let username = $('.DetailViewUserInfo-username').text();
-        //tenta fazer substituição válida
-        src = src.replace('//im.vsco.co/1/', 'https://image.vsco.co/1/');
-        src = src.replace('//im.vsco.co/aws-us-west-2/', 'https://image-aws-us-west-2.vsco.co/');
-        //utilizado para nomear a imagem
-        let endName = src.lastIndexOf('.jpg');
-        let startname =  src.lastIndexOf('/');
-        saveImage(src, './imgs', username + '_' + src.slice(startname + 1, endName) + '.jpg')
+async function main(args) {
+        for (u of args) {
+            await nightmare
+                .goto(u)
+                .wait(200)
+                .evaluate(() => {
+                    console.log(document.body.innerHTML);
+                    return document.body.innerHTML;
+                })
+                .then(async (body) => {
+                    // console.log('NIGHTMARE :: page loaded');
+                    scrapPage(body)
+                })
+        }
+        for (i of urls) {
+            saveImage(i.url, i.folder, i.imgName);
+        }
+        await nightmare.end()
+}
+
+function scrapPage(body) {
+    var $ = cheerio.load(body);
+    src = $('.css-6j68gn').attr("src");
+    let username = $('.DetailViewUserInfo-username').text();
+    //tenta fazer substituição válida
+    src = src.replace('//im.vsco.co/1/', 'https://image.vsco.co/1/');
+    src = src.replace('//im.vsco.co/aws-us-west-2/', 'https://image-aws-us-west-2.vsco.co/');
+    //utilizado para nomear a imagem
+    let endName = src.lastIndexOf('.jpg');
+    let startname = src.lastIndexOf('/');
+    // console.log('CHEERIO :: page converted');
+    urls.push({
+        url: src,
+        folder: './imgs',
+        imgName: username + '_' + src.slice(startname + 1, endName) + '.jpg'
     })
 }
 
 function saveImage(url, folder, imgName) {
-    if (!fs.existsSync(folder)){    //se a pasta não existir, cria
-        fs.mkdirSync(folder);
-    }
-    var file = fs.createWriteStream(folder + '/' + imgName);
-    try {
-        var request = https.get(url, (response) => {
-            console.log('SAVED!');
-            response.pipe(file);
+    return new Promise(function() {
+        console.log('saving image');
+        if (!fs.existsSync(folder)) { //se a pasta não existir, cria
+            fs.mkdirSync(folder);
+        }
+        https.get(url, (response) => {
+            response.pipe(fs.createWriteStream(folder + '/' + imgName));
+        }).on('error', e => {
+            console.error(e);
         });
-        return 0;
-    } catch (e) {
-        console.log('ERROR');
-        console.log(url);
-        return 1;
-    }
+    });
 }
