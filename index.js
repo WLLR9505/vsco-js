@@ -14,6 +14,10 @@ main(args);
 
 
 async function main(args) {
+    if (args[0] === '-f') { //leitura das URLs de arquivo
+        args = readURLsFromFile(args[1]);
+    }
+
         for (u of args) {
             await nightmare
                 .goto(u)
@@ -22,7 +26,7 @@ async function main(args) {
                     console.log(document.body.innerHTML);
                     return document.body.innerHTML;
                 })
-                .then(async (body) => {
+                .then((body) => {
                     // console.log('NIGHTMARE :: page loaded');
                     scrapPage(body)
                 })
@@ -31,6 +35,14 @@ async function main(args) {
             saveImage(i.url, i.folder, i.imgName);
         }
         await nightmare.end()
+}
+
+function readURLsFromFile(filePath) {
+    let file = fs.readFileSync(filePath, 'utf-8');
+    file = file.split(/[\r\n]/g);
+    return file.filter((v) => {
+        return v !== ''
+    })
 }
 
 function scrapPage(body) {
