@@ -1,3 +1,10 @@
+## v1.1.0
+- Leitura de URLs em arquivo .txt
+> Execute o comando abaixo indicando o caminho e nome do arquivo com as URLs (uma por linha ):
+
+*Exemplo:*
+`node index.js -f ./links.txt`
+
 ## v1.0.0
 *versão inicial*
 - download de múltiplas imagens
