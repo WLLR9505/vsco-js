@@ -18,6 +18,8 @@ async function main(args) {
         args = readURLsFromFile(args[1]);
     }
 
+    console.log(`Preparing to save ${args.length} image(s)`);
+
         for (u of args) {
             await nightmare
                 .goto(u)
@@ -43,6 +45,16 @@ function readURLsFromFile(filePath) {
     return file.filter((v) => {
         return v !== ''
     })
+    try {
+        let file = fs.readFileSync(filePath, 'utf-8');
+        file = file.split(/[\r\n]/g);
+        return file.filter((v) => {
+            return v !== ''
+        })
+    } catch (e) {
+        console.log('ERROR with file');
+        process.exit(1);
+    }
 }
 
 function scrapPage(body) {
