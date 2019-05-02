@@ -3,7 +3,10 @@ const fs = require("fs");
 const cheerio = require("cheerio");
 const Nightmare = require('Nightmare');
 nightmare = new Nightmare({
-    show: false
+    show: false,
+    webPreferences: {
+        images: false
+    }
 });
 
 var src = new String;
@@ -59,7 +62,7 @@ function readURLsFromFile(filePath) {
 
 function scrapPage(body) {
     var $ = cheerio.load(body);
-    src = $('.css-6j68gn').attr("src");
+    src = $('.disableSave-mobile').attr("src");
     let username = $('.DetailViewUserInfo-username').text();
     //tenta fazer substituição válida
     src = src.replace('//im.vsco.co/1/', 'https://image.vsco.co/1/');

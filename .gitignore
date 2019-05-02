@@ -3,3 +3,4 @@ node_modules
 *.exe
 *.txt
 tests.js
+.eslintrc.json

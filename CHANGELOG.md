@@ -1,3 +1,6 @@
+## v1.1.1
+- Alterado a classe onde o cheerio busca busca os links
+
 ## v1.1.0
 - Leitura de URLs em arquivo .txt
 > Execute o comando abaixo indicando o caminho e nome do arquivo com as URLs (uma por linha ):
