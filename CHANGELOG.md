@@ -1,3 +1,7 @@
+## v1.2.0
+- Adicionado barra de progresso
+- Adicionado contagem regressiva
+
 ## v1.1.1
 - Alterado a classe onde o cheerio busca busca os links
 
