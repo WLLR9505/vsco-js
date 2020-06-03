@@ -55,7 +55,7 @@ function readURLsFromFile(filePath) {
 function scrapPage(body) {
     var $ = cheerio.load(body);
     src = $('.disableSave-mobile').attr("src");
-    let username = $('.DetailViewUserInfo-username').text();
+    let username = $('.ejb7ykf1').text();
     //tenta fazer substituição válida
     src = src.replace('//im.vsco.co/1/', 'https://image.vsco.co/1/');
     src = src.replace('//im.vsco.co/aws-us-west-2/', 'https://image-aws-us-west-2.vsco.co/');
