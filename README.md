@@ -8,6 +8,7 @@ Ferramenta para download de imagem do site vsco.co utilizando web scraping
 ## Dependências
 - cheerio
 - nightmare
+- target-menu
 
 ---
 
@@ -16,8 +17,10 @@ Ferramenta para download de imagem do site vsco.co utilizando web scraping
 Execute o comando abaixo substituindo *imageURL* pela url da imagem desejada  
 
 `node index.js imageURL`
-
 Será gerada uma pasta './imgs' com a imagem salva
+
+`node index.js -c`
+Será iniciado o CLI
 
 ---
 
