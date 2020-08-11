@@ -1,6 +1,6 @@
 const Nightmare = require('Nightmare');
 const RL = require('readline-sync');
-const saveImage = require('./saveImage')
+const saveMe = require('@wllr9505/save-m')
 const scrapPage = require('./scrapPage')
 
 nightmare = new Nightmare({
@@ -32,7 +32,7 @@ module.exports = async function prepareDownload(link) {
                     countDown--;
                     scrapPage(body, urls, src)
                 }).then(async () => {
-                    await saveImage(urls[i].url, urls[i].folder, urls[i].imgName)
+                    await saveMe(urls[i].url, urls[i].folder, urls[i].imgName)
                 })
         }
         resolve()

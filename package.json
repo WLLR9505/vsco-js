@@ -1,6 +1,6 @@
 {
   "name": "vsco-js",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "",
   "main": "index.js",
   "private": "true",
@@ -12,6 +12,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "nightmare": "^3.0.1",
-    "target-menu": "^2.0.1"
+    "target-menu": "^2.0.1",
+    "@wllr9505/save-m": "^0.0.2"
   }
 }
